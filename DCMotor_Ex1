@@ -1,0 +1,17 @@
+#define IN1 5
+#define IN2 6
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+}
+
+void loop() {
+  // Motor should spin continuously
+  analogWrite(IN1, 150);
+  digitalWrite(IN2, LOW);
+  
+  Serial.println("Motor running...");
+  delay(1000);
+}

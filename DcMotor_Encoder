@@ -1,0 +1,60 @@
+// Quadrature Encoder
+//
+
+# define IN1 5  // H bridge input 3
+# define IN2 6  // H bridge input 4
+
+
+int ENCA = 2;  //encoder output channel A
+int ENCB = 3;  //encoder output channel B
+
+
+// initialize Counters
+volatile int lastEncoded = 0;
+volatile long encoderValue = 0;
+
+long lastEncoderValue = 0;
+
+void setup()
+{
+  Serial.begin(9600);
+  
+  // the H-bridge gives signal to motor to perform
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  
+  //after the motor shaft moves, the new position is detected using encoder
+  pinMode(ENCA, INPUT);
+  pinMode(ENCB, INPUT);
+  
+  pinMode(pot, INPUT)
+  
+  //intialize Encoder Pins with the pull up resistors
+  digitalWrite(ENCA, HIGH);
+  digitalWrite(ENCB, HIGH);
+  
+  attachInterrupt(0,encoderFlag, CHANGE);  // Interrupt 0 =Pin 2
+  attachInterrupt(1,encoderFlag, CHANGE);  // Interrupt 1= Pin 3
+}
+
+void loop()
+{
+  Serial.println(encoderValue);
+  analogWrite(IN1, 127);
+  digitalWrite(IN2, HIGH);
+  delay(100);
+}
+
+void encoderFlag() 
+{
+  int MSB = digitalRead(ENCA); //MSB = most significant bit
+  int LSB = digitalRead(ENCB); //LSB = least significant bit
+  
+  int encoded = (MSB << 1) |LSB; //converting the 2 pin value to single number ex. 01
+  int sum  = (lastEncoded << 2) | encoded; //adding it to the previous encoded value ex. 0111
+  
+  if(sum == 0b1101 || sum == 0b0100 || sum == 0b0010 || sum == 0b1011) encoderValue ++;
+  if(sum == 0b1110 || sum == 0b0111 || sum == 0b0001 || sum == 0b1000) encoderValue --;
+  
+  lastEncoded=encoded;
+}

@@ -1,0 +1,21 @@
+// code to get value from potentiometer
+# define IN1 5  // H bridge input 3
+# define IN2 6  // H bridge input 4
+
+# define pot A1  // potentiometer
+
+int ENCA = 2;  //encoder output channel A
+int ENCB = 3;  //encoder output channel B
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(A0, INPUT);
+}
+
+void loop() {
+  int potValue = analogRead(A0);
+  Serial.print("Potentiometer: ");
+  Serial.println(potValue);
+  delay(500);
+}
+

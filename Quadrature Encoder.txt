@@ -1,0 +1,25 @@
+Quadrature Encoder
+
+the encoder has two channels A and B that then common in contact with the common pin C and lead to the formation of two square waves 90 out of phase.
+
+- in clockwise direction
+	channel B comes before channel A
+			A	B
+            state 0:    0       0  = both low
+	    state 1:    0       1  = A low, B high   0001
+	    state 2:    1       1  = A high,B high   0111
+            state 3:    1       0  = A high,B low    1110
+            state 0:    0       0  = both low        1000
+
+- in counterclockwise direction
+	channel A comes before channel B
+			A	B
+            state 0:    0       0  = both low
+	    state 1:    1       0  = A high, B low   0010
+	    state 2:    1       1  = A high,B high   1011
+            state 3:    0       1  = A low,B high    1101
+            state 0:    0       0  = both low        0100
+
+clockwise if stateA= stateB 
+counterclockwise if stabe A!=stateB
+
